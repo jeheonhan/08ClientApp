@@ -15,13 +15,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 
 
 
-public class RestHttpClientApp {
+public class UserRestHttpClientApp {
 	
 	// main Method
 	public static void main(String[] args) throws Exception{
