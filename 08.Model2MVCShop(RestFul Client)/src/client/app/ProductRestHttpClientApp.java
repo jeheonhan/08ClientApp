@@ -24,7 +24,9 @@ public class ProductRestHttpClientApp {
 		//ProductRestHttpClientApp.getProductTest_JsonSimple();
 		//ProductRestHttpClientApp.getProductTest_CodeHaus();
 		
-		ProductRestHttpClientApp.addProductTest_JsonSimple();
+//		ProductRestHttpClientApp.addProductTest_JsonSimple();
+		
+		ProductRestHttpClientApp.listProductTest_JsonSimple();
 
 	}
 	
@@ -102,6 +104,7 @@ public class ProductRestHttpClientApp {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void addProductTest_JsonSimple() throws Exception{
 		
 		HttpClient httpClient = new DefaultHttpClient();
@@ -134,6 +137,47 @@ public class ProductRestHttpClientApp {
 		
 		//==> InputStream 생성
 		InputStream is = httpEntity01.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+		
+		System.out.println("[ Server 에서 받은 Data 확인 ] ");
+		String serverData = br.readLine();
+		System.out.println(serverData);
+		
+		//==> 내용읽기(JSON Value 확인)
+		JSONObject jsonobj = (JSONObject)JSONValue.parse(serverData);
+		System.out.println(jsonobj);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void listProductTest_JsonSimple() throws Exception{
+		
+		HttpClient httpClient = new DefaultHttpClient();
+		
+		String url= 	"http://127.0.0.1:8080/product/json/listProduct";
+				
+		// HttpGet : Http Protocol 의 GET 방식 Request
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Accept", "application/json");
+		httpPost.setHeader("Content-Type", "application/json");	
+		
+		JSONObject json = new JSONObject();
+		json.put("searchCondition", "1");
+		json.put("searchKeyword", "");
+		
+		HttpEntity httpEntity01 = new StringEntity(json.toString(),"utf-8");
+		httpPost.setEntity(httpEntity01);				
+		
+		HttpResponse httpResponse = httpClient.execute(httpPost);
+		
+		//==> Response 확인
+		System.out.println(httpResponse);
+		System.out.println();
+
+		//==> Response 중 entity(DATA) 확인
+		HttpEntity httpEntity = httpResponse.getEntity();
+		//==> InputStream 생성
+		InputStream is = httpEntity.getContent();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 		
 		System.out.println("[ Server 에서 받은 Data 확인 ] ");
